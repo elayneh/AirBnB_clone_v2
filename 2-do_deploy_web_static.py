@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" deploy some contents"""
+# deploy some contents
 
 
 from fabric.api import *
@@ -12,14 +12,13 @@ env.hosts = ['34.139.204.59', '3.235.148.75']
 
 
 def do_deploy(archive_path):
-    """ method to executed
-    """
+    """the method to be executed in fab"""
     if exists(archive_path) is False:
         return False
     file = archive_path.split('/')[-1]
     no_tgz = '/data/web_static/releases/' + "{}".format(file.split('.')[0])
     temp = "/tmp/" + file
-
+    
     try:
         put(archive_path, "/tmp/")
         run("mkdir -p {}/".format(no_tgz))
