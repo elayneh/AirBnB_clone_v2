@@ -1,21 +1,38 @@
 #!/usr/bin/env bash
-# set up web server for deployment
+# Sets up a web server for deployment of web_static.
 
 apt-get update
-apt-get -y install nginx
-mkdir -p /data
-mkdir -p /data/web_static
-mkdir -p /data/web_static/releases
-mkdir -p /data/web_static/shared/
+apt-get install -y nginx
+
 mkdir -p /data/web_static/releases/test/
-echo '<html>
-  <head>
-  </head>
-  <body>
-    Holberton School
-  </body>
-</html>' > /data/web_static/releases/test/index.html
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -hR ubuntu:ubuntu /data/
-sed -i '51 i \\n\tlocation /hbnb_static {\n\talias /data/web_static/current;\n\t}' /etc/nginx/sites-available/default
+
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
+
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
 service nginx restart
