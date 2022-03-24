@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-""" a Fabric script (based on the file 1-pack_web_static.py) that distributes..
-    ..an archive to your web servers, using the function do_deploy: """
-
+""" deploy"""
 
 from fabric.api import *
 from datetime import datetime
@@ -11,13 +9,12 @@ from os.path import exists
 env.hosts = ['34.139.204.59', '3.235.148.75']  
 
 def do_deploy(archive_path):
-    """ distributes an archive to my web servers
-    """
+
     if exists(archive_path) is False:
         return False  
-    filename = archive_path.split('/')[-1]
-    no_tgz = '/data/web_static/releases/' + "{}".format(filename.split('.')[0])
-    tmp = "/tmp/" + filename
+    file = archive_path.split('/')[-1]
+    no_tgz = '/data/web_static/releases/' + "{}".format(file.split('.')[0])
+    tmp = "/tmp/" + file
 
     try:
         put(archive_path, "/tmp/")
