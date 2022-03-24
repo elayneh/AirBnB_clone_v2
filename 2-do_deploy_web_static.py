@@ -7,13 +7,15 @@ from datetime import datetime
 from os.path import exists
 
 
-env.hosts = ['34.139.204.59', '3.235.148.75']  
+env.hosts = ['34.139.204.59', '3.235.148.75']
+
 
 def do_deploy(archive_path):
     """ method to executed
     """
-    if exists(archive_path) is False:
-        return False  
+    status = exists(archive_path)
+    if status is False:
+        return False
     filename = archive_path.split('/')[-1]
     no_tgz = '/data/web_static/releases/' + "{}".format(filename.split('.')[0])
     tmp = "/tmp/" + filename
