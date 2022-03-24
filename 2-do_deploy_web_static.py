@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-# deploy some contents
+"""deploy some contents
+"""
 
 
 from fabric.api import *
-from datetime import datetime
 from os.path import exists
+from datetime import datetime
 
 
 env.hosts = ['34.139.204.59', '3.235.148.75']
-
 
 
 def do_deploy(archive_path):
@@ -18,7 +18,6 @@ def do_deploy(archive_path):
     file = archive_path.split('/')[-1]
     no_tgz = '/data/web_static/releases/' + "{}".format(file.split('.')[0])
     temp = "/tmp/" + file
-    
     try:
         put(archive_path, "/tmp/")
         run("mkdir -p {}/".format(no_tgz))
