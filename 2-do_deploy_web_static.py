@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" deploy"""
+""" deploy some contents"""
+
 
 from fabric.api import *
 from datetime import datetime
@@ -9,12 +10,13 @@ from os.path import exists
 env.hosts = ['34.139.204.59', '3.235.148.75']  
 
 def do_deploy(archive_path):
-
+    """ method to executed
+    """
     if exists(archive_path) is False:
         return False  
-    files = archive_path.split('/')[-1]
-    no_tgz = '/data/web_static/releases/' + "{}".format(files.split('.')[0])
-    tmp = "/tmp/" + files
+    filename = archive_path.split('/')[-1]
+    no_tgz = '/data/web_static/releases/' + "{}".format(filename.split('.')[0])
+    tmp = "/tmp/" + filename
 
     try:
         put(archive_path, "/tmp/")
