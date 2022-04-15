@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-""" 3. Add third view func that redirects and has default val for variable """
 
 from flask import Flask
 
@@ -33,6 +32,13 @@ def python_text(text='is cool'):
     """ replace more text with another variable. """
     text = text.replace('_', ' ')
     return 'Python {}'.format(text)
+
+
+@app.route('/number/<int:n>')
+def number(n):
+    if (isinstance(n, int)):
+        n = str(n)
+        return "{} is a number". format(n)
 
 
 if __name__ == '__main__':
